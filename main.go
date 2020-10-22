@@ -136,7 +136,7 @@ func genBranchName(cfg config, issueID string) {
 		parts[i] = string(re.ReplaceAll([]byte(parts[i]), []byte{'_'}))
 	}
 	suffix := strings.Join(parts, "-")
-	fmt.Println(cfg.ShortName + "-" + issueID + "-" + suffix)
+	fmt.Println(cfg.ShortName + "/" + issueID + "-" + suffix)
 }
 
 func getOrCreateProjectDir() (string, error) {
