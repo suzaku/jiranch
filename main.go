@@ -126,7 +126,10 @@ func genBranchName(cfg config, issueID string) {
 		os.Exit(1)
 	}
 	parts := strings.Split(issue.Fields.Summary, " ")
-	suffix := strings.Join(parts[:5], "-")
+	if len(parts) > 5 {
+		parts = parts[:5]
+	}
+	suffix := strings.Join(parts, "-")
 	fmt.Println(cfg.ShortName + "-" + issueID + "-" + suffix)
 }
 
