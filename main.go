@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/andygrunwald/go-jira"
@@ -125,9 +126,14 @@ func genBranchName(cfg config, issueID string) {
 		fmt.Fprintf(os.Stderr, "Failed to get issue: %v", err)
 		os.Exit(1)
 	}
-	parts := strings.Split(issue.Fields.Summary, " ")
+	parts := strings.SplitN(issue.Fields.Summary, " ", 6)
 	if len(parts) > 5 {
 		parts = parts[:5]
+	}
+
+	re := regexp.MustCompile("\\W")
+	for i := 0; i < len(parts); i++ {
+		parts[i] = string(re.ReplaceAll([]byte(parts[i]), []byte{'_'}))
 	}
 	suffix := strings.Join(parts, "-")
 	fmt.Println(cfg.ShortName + "-" + issueID + "-" + suffix)
